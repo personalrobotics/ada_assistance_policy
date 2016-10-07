@@ -1,0 +1,309 @@
+<robot
+  name="ADA_HAND">
+  <link
+    name="Hand_Link">
+    <inertial>
+      <origin
+        xyz="0.0015134 0 -0.074456"
+        rpy="0 0 0" />
+      <mass
+        value="0.4" />
+      <inertia
+        ixx="0.00020901"
+        ixy="0"
+        ixz="0"
+        iyy="0.00015498"
+        iyz="0"
+        izz="0.00012507" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.14" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Hand_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.2 0.2 0.2 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.14" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Hand_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+   <link
+    name="Camera_RGB_Frame">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.05" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+  </link>
+   <joint
+    name="Camera_Joint" type = "fixed">
+    <origin
+      xyz="0.047 0.05 -0.090 "
+      rpy="-2.92 0.000 -1.571" />
+    <parent
+      link="Hand_Link" />
+    <child
+      link="Camera_RGB_Frame" />
+  </joint>
+  <link
+    name="Finger_1_Proximal_Link">
+    <inertial>
+      <origin
+        xyz="-0.00894704183784709 -0.0181466381953971 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0106365590225629" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_1_Proximal_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_1_Proximal_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="f1"
+    type="revolute">
+    <origin
+      xyz="0.0024957 -0.030948 -0.11482"
+      rpy="1.5708 0.56392 1.5708" />
+    <parent
+      link="Hand_Link" />
+    <child
+      link="Finger_1_Proximal_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.01"
+      upper="1.35"
+      effort="1.2"
+      velocity="0.785398163" />
+  </joint>
+  <link
+    name="Finger_1_Distal_Link">
+    <inertial>
+      <origin
+        xyz="-0.0047690584177113 -0.0133399601477665 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0121939815401302" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_1_Distal_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_1_Distal_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="f1_distal"
+    type="revolute">
+    <origin
+      xyz="-0.003 -0.044 0"
+      rpy="0 0 -0.19199" />
+    <parent
+      link="Finger_1_Proximal_Link" />
+    <child
+      link="Finger_1_Distal_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.05"
+      effort="1.2"
+      velocity="0.785398163" />
+    <mimic 
+      joint="f1"
+      multiplier="0.5" />
+  </joint>
+  <link
+    name="Finger_2_Proximal_Link">
+    <inertial>
+      <origin
+        xyz="-0.00894697932265109 -0.018146678045967 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0106364391584646" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_2_Proximal_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_2_Proximal_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="f2"
+    type="revolute">
+    <origin
+      xyz="0.0024957 0.030948 -0.11482"
+      rpy="1.5708 0.56392 -1.5708" />
+    <parent
+      link="Hand_Link" />
+    <child
+      link="Finger_2_Proximal_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.01"
+      upper="1.35"
+      effort="1.2"
+      velocity="0.785398163" />
+  </joint>
+  <link
+    name="Finger_2_Distal_Link">
+    <inertial>
+      <origin
+        xyz="-0.00476909654850879 -0.0133398607161451 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0121939010456702" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_2_Distal_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ada_description/meshes/Finger_2_Distal_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="f2_distal"
+    type="revolute">
+    <origin
+      xyz="-0.003 -0.044 0"
+      rpy="0 0 -0.19199" />
+    <parent
+      link="Finger_2_Proximal_Link" />
+    <child
+      link="Finger_2_Distal_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.05"
+      effort="1.2"
+      velocity="0.785398163" />
+    <mimic 
+      joint="f2"
+      multiplier="0.5" />
+  </joint>
+ </robot>
+
