@@ -6,8 +6,8 @@ import numpy as np
 #colormap
 from matplotlib import cm
 
-color_rbg_usercmd = [1., 0., 0.]
-color_rbg_assistcmd = [0., 0., 1.]
+color_rbg_usercmd = [0.1, 0.7, 0.1]
+color_rbg_assistcmd = [0.9, 0., 0.05]
 
 
 class VisualizationHandler:
@@ -16,11 +16,11 @@ class VisualizationHandler:
     self.marker_publisher = rospy.Publisher("visualization_marker_array", MarkerArray, queue_size=50)
 
 
-  def draw_probability_text(self, objects, probabilities):
+
+  def draw_probability_text_given_positions(self, positions, probabilities):
     all_markers = MarkerArray()
-    for ind,(obj,prob) in enumerate(zip(objects,probabilities)):
+    for ind,(position,prob) in enumerate(zip(positions,probabilities)):
       marker = Marker()
-      obj_pose = obj.GetTransform()
       marker.header.frame_id = "map"
       marker.header.stamp = rospy.Time.now()
       marker.type = Marker.TEXT_VIEW_FACING
@@ -28,9 +28,9 @@ class VisualizationHandler:
       marker.ns = 'probabilities'
       marker.lifetime.secs = 1
 
-      marker.pose.position.x = obj_pose[0,3]
-      marker.pose.position.y = obj_pose[1,3]
-      marker.pose.position.z = obj_pose[2,3] + 0.28
+      marker.pose.position.x = position[0]
+      marker.pose.position.y = position[1]
+      marker.pose.position.z = position[2] + 0.1
       marker.pose.orientation.x = 0.
       marker.pose.orientation.y = 0.
       marker.pose.orientation.z = 0.
@@ -56,6 +56,12 @@ class VisualizationHandler:
 
     self.marker_publisher.publish(all_markers)
 
+  def draw_probability_text(self, object_poses, probabilities):
+    positions = []
+    for obj_pose in object_poses:
+      positions.append( [obj_pose[0,3], obj_pose[1,3], obj_pose[2,3]+0.28])
+    
+    self.draw_probability_text_given_positions(positions, probabilities)
 
   #adds arrow markers to draw hand poses as arrows
   def draw_hand_poses(self, poses, marker_ns='axes'):
@@ -71,10 +77,10 @@ class VisualizationHandler:
     all_markers = MarkerArray()
     start_pt = end_effector_trans[0:3,3]
 
-    end_pt_user = (start_pt + user_cmd[0:3])*scale_cmd_arrow
+    end_pt_user = (start_pt + user_cmd[0:3]*scale_cmd_arrow)
     all_markers.markers.append(arrow_marker(start_pt, end_pt_user, color_rbg_usercmd, marker_id=0))
 
-    end_pt_assist = (start_pt + assist_cmd[0:3])*scale_cmd_arrow
+    end_pt_assist = (start_pt + assist_cmd[0:3]*scale_cmd_arrow)
     all_markers.markers.append(arrow_marker(start_pt, end_pt_assist, color_rbg_assistcmd, marker_id=1))
     self.marker_publisher.publish(all_markers)
 

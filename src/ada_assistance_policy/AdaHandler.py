@@ -47,7 +47,7 @@ num_control_modes = 2
 
   
 class AdaHandler:
-  def __init__(self, env, robot, goals, goal_objects, input_interface_name, num_input_dofs, use_finger_mode=True):
+  def __init__(self, env, robot, goals, goal_objects, input_interface_name, num_input_dofs, use_finger_mode=True, goal_object_poses=None):
 #      self.params = {'rand_start_radius':0.04,
 #             'noise_pwr': 0.3,  # magnitude of noise
 #             'vel_scale': 4.,   # scaling when sending velocity commands to robot
@@ -57,6 +57,10 @@ class AdaHandler:
       self.robot = robot
       self.goals = goals
       self.goal_objects = goal_objects
+      if not goal_object_poses and goal_objects:
+        self.goal_object_poses = [goal_obj.GetTransform() for goal_obj in goal_objects]
+      else:
+        self.goal_object_poses = goal_object_poses
 
       self.sim = robot.simulated
       self.manip = self.robot.arm
@@ -157,7 +161,7 @@ class AdaHandler:
         self.ada_teleop.ExecuteAction(action)
 
         ### visualization ###
-        vis.draw_probability_text(self.goal_objects, self.robot_policy.goal_predictor.get_distribution())
+        vis.draw_probability_text(self.goal_object_poses, self.robot_policy.goal_predictor.get_distribution())
 
 #        for goal,goal_obj in zip(self.goals, self.goal_objects):
 #          marker_ns = goal_obj.GetName() + '_targets'
